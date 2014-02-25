@@ -1,0 +1,16 @@
+name: DailyLoginRewards
+main: com.google.payne.tk.john.dailyloginrewards.DailyLoginRewards
+author: BadReuben
+version: 0.1
+description: >
+             DailyLoginRewards Bukkit Plugin by BadReuben
+commands:
+  Rewards:
+    description: general command
+  DailyLoginRewards:
+    description: general command
+  DLR:
+    description: general command
+  Rewards Reload:
+    description: reload settings from config.
+    aliases: DailyLoginRewards Reload
