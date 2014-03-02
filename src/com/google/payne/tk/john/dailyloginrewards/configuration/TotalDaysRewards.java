@@ -27,8 +27,8 @@ public class TotalDaysRewards {
 			TotalDaysRewards.set("14.pay", 700);
 			TotalDaysRewards.set("21.pay", 700);
 			TotalDaysRewards.set("28.pay", 1400);
-			TotalDaysRewards.set("7.broadcast", "&9&o%p logged in for 28 days total!");
-			TotalDaysRewards.set("7.say", "&9&o&4&oYou logged in for 28 days total!");
+			TotalDaysRewards.set("28.broadcast", "&9&o%p logged in for 28 days total!");
+			TotalDaysRewards.set("28.say", "&9&o&4&oYou logged in for 28 days total!");
 			TotalDaysRewards.set("35.pay", 700);
 			TotalDaysRewards.set("42.pay", 700);
 			TotalDaysRewards.set("49.pay", 700);

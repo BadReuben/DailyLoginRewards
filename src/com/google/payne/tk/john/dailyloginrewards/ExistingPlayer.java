@@ -102,8 +102,6 @@ public class ExistingPlayer {
 			
 			//Check Daily reward
 			DailyReward.CheckDailyReward(player);
-			//Check for consecutive day reward
-			ConsecutiveRewards.CheckConsecutiveReward(consecutiveDays, player);
 			//Check for total days reward
 			TotalDaysRewards.CheckTotalDaysReward(totalDays, player);
 			//TODO Check DOB and Anniv with current date and check for reward

@@ -1,5 +1,7 @@
 package com.google.payne.tk.john.dailyloginrewards;
 
+import java.io.IOException;
+
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
@@ -18,6 +20,7 @@ import com.google.payne.tk.john.dailyloginrewards.configuration.RewardsEconomy;
 import com.google.payne.tk.john.dailyloginrewards.configuration.Settings;
 import com.google.payne.tk.john.dailyloginrewards.configuration.TotalDaysRewards;
 import com.google.payne.tk.john.dailyloginrewards.listeners.PlayerJoinListener;
+import com.google.payne.tk.john.dailyloginrewards.metrics.Metrics;
 
 public class DailyLoginRewards extends JavaPlugin
 {
@@ -50,6 +53,14 @@ public class DailyLoginRewards extends JavaPlugin
 		TotalDaysRewards.LoadTotalDaysRewards();
 		DailyReward.LoadDailyRewards();
 		Lang.LoadLang();
+		
+		try {
+		    Metrics metrics = new Metrics(this);
+		    metrics.start();
+		} catch (IOException e) {
+		    // Failed to submit the stats :-(
+		}
+		
 	}
 	
 	public boolean onCommand(CommandSender sender, Command command, String label,

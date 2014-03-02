@@ -1,31 +1,36 @@
 package com.google.payne.tk.john.dailyloginrewards.util;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.TimeZone;
 
+import com.google.payne.tk.john.dailyloginrewards.configuration.Settings;
 
-public class TimeDate {
-	
+public class TimeDate {	
 	public static int getTodaysDate() {
-		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-		Date date = new Date();
+		NumberFormat numberformat = new DecimalFormat("00");
+		Calendar cal = Calendar.getInstance(getTimeZone());
 		
-		/*if (Integer.parseInt(dateFormat.format(date)) != Settings.Today) {
-			Settings.LoadConfig();
-		}*/
+		//Timezone-modified date. First month is valued at zero, so a "+100" was added in the return
+		String date = cal.get(Calendar.YEAR) + (numberformat.format(cal.get(Calendar.MONTH))) + numberformat.format(cal.get(Calendar.DATE));
 		
-		return Integer.parseInt(dateFormat.format(date));
+		return Integer.parseInt(date) + 100;
 	}
 	
 	public static int getYesterdaysDate() {
-		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
-		Calendar cal = Calendar.getInstance();
-		
+		NumberFormat numberformat = new DecimalFormat("00");
+		Calendar cal = Calendar.getInstance(getTimeZone());
 		cal.add(Calendar.DATE, -1);
 		
-		return Integer.parseInt(dateFormat.format(cal.getTime()));
+		String date = cal.get(Calendar.YEAR) + (numberformat.format(cal.get(Calendar.MONTH))) + numberformat.format(cal.get(Calendar.DATE));
 		
+		return Integer.parseInt(date) + 100;
+	}
+	
+	public static TimeZone getTimeZone() {
+		//Attempts to set the timezone specified in the config
+		TimeZone tz = TimeZone.getTimeZone(Settings.timezone);
+		return tz;
 	}
 }

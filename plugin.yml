@@ -1,7 +1,7 @@
 name: DailyLoginRewards
 main: com.google.payne.tk.john.dailyloginrewards.DailyLoginRewards
 author: BadReuben
-version: 0.1
+version: 0.2
 description: >
              DailyLoginRewards Bukkit Plugin by BadReuben
 commands:
