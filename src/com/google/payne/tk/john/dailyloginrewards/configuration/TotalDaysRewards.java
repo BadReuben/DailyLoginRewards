@@ -21,14 +21,12 @@ public class TotalDaysRewards {
 			TotalDaysRewards.set("2.pay", 50);
 			TotalDaysRewards.set("4.pay", 150);
 			TotalDaysRewards.set("7.pay", 400);
-			TotalDaysRewards.set("7.broadcast", "&9&o%p logged in for 7 days total!");
-			TotalDaysRewards.set("7.say", "&9&o&4&oYou logged in for 7 days total!");
-			TotalDaysRewards.set("7.command", "give %p 264 1");
+			TotalDaysRewards.set("example.broadcast", "&9&o%p logged in for 7 days total!");
+			TotalDaysRewards.set("example.say", "&9&o&4&oYou logged in for 7 days total!");
+			TotalDaysRewards.set("example.command", "give %p 264 1");
 			TotalDaysRewards.set("14.pay", 700);
 			TotalDaysRewards.set("21.pay", 700);
 			TotalDaysRewards.set("28.pay", 1400);
-			TotalDaysRewards.set("28.broadcast", "&9&o%p logged in for 28 days total!");
-			TotalDaysRewards.set("28.say", "&9&o&4&oYou logged in for 28 days total!");
 			TotalDaysRewards.set("35.pay", 700);
 			TotalDaysRewards.set("42.pay", 700);
 			TotalDaysRewards.set("49.pay", 700);
@@ -65,24 +63,13 @@ public class TotalDaysRewards {
 		}
 	}
 	
-	public static void CheckTotalDaysReward(int Days, Player player) {
+	public static int CheckTotalDaysReward(int Days, Player player) {
 		
 		//Import any rewards for receiving player
 		int Pay = TotalDaysRewards.getInt(Days + ".pay", -1);
 		String Broadcast = TotalDaysRewards.getString(Days + ".broadcast", null);
 		String Say = TotalDaysRewards.getString(Days + ".say", null);
 		String Cmd = TotalDaysRewards.getString(Days + ".command", null);
-		
-		
-		
-		if ( Pay > 0 && (RewardsEconomy.ecoEnabled == true) ) {
-			DailyLoginRewards.economy.depositPlayer(player.getName(), Pay);
-			
-			if ( (Lang.TotalPay != null) && (Lang.TotalPay != "") && (Settings.UseMessages) ) {
-				player.sendMessage( ChatColor.translateAlternateColorCodes('&', 
-						Lang.TotalPay.replace("%m", Integer.toString(Pay))) );
-			}
-		}
 		
 		if ( Broadcast != null ) {
 			Bukkit.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', Broadcast.replace("%p", player.getName())));
@@ -95,5 +82,16 @@ public class TotalDaysRewards {
 		if ( Cmd != null ) {
 			Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), Cmd.replace("%p", player.getName()));
 		}
+		
+		if ( Pay > 0 && (RewardsEconomy.ecoEnabled == true) ) {
+			DailyLoginRewards.economy.depositPlayer(player.getName(), Pay);
+			
+			if ( (Lang.TotalPay != null) && (Lang.TotalPay != "") && (Settings.UseMessages) && !(Settings.UseCombineTotals) ) {
+				player.sendMessage( ChatColor.translateAlternateColorCodes('&', 
+						Lang.TotalPay.replace("%m", Integer.toString(Pay))) );
+			}
+			return Pay;
+		}
+		return 0;
 	}
 }

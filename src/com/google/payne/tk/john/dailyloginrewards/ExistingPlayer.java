@@ -63,12 +63,18 @@ public class ExistingPlayer {
 			}
 			
 			//Check Daily reward
-			DailyReward.CheckDailyReward(player);
+			int daily = DailyReward.CheckDailyReward(player);
 			//Check for consecutive day reward
-			ConsecutiveRewards.CheckConsecutiveReward(consecutiveDays, player);
+			int consecutive = ConsecutiveRewards.CheckConsecutiveReward(consecutiveDays, player);
 			//Check for total days reward
-			TotalDaysRewards.CheckTotalDaysReward(totalDays, player);
-			//TODO Check DOB with current date and check for reward
+			int total = TotalDaysRewards.CheckTotalDaysReward(totalDays, player);
+			//TODO Check DOB and Anniv with current date and check for reward
+			int GrandTotal = daily + consecutive + total;
+			
+			if ( (GrandTotal > 0) && Settings.UseCombineTotals ) {
+				player.sendMessage( ChatColor.translateAlternateColorCodes('&', 
+						Lang.CombinedTotals.replace("%g", Integer.toString(GrandTotal))) );
+			}
 			
 		} else {
 			consecutiveDays = 1;
@@ -101,10 +107,19 @@ public class ExistingPlayer {
 			}
 			
 			//Check Daily reward
-			DailyReward.CheckDailyReward(player);
+			int daily = DailyReward.CheckDailyReward(player);
+			//Check for consecutive day reward
+			int consecutive = ConsecutiveRewards.CheckConsecutiveReward(consecutiveDays, player);
 			//Check for total days reward
-			TotalDaysRewards.CheckTotalDaysReward(totalDays, player);
+			int total = TotalDaysRewards.CheckTotalDaysReward(totalDays, player);
 			//TODO Check DOB and Anniv with current date and check for reward
+			int GrandTotal = daily + consecutive + total;
+			
+			if ( (GrandTotal > 0) && Settings.UseCombineTotals ) {
+				player.sendMessage( ChatColor.translateAlternateColorCodes('&', 
+						Lang.CombinedTotals.replace("%g", Integer.toString(GrandTotal))) );
+			}
+			
 		}
 		
 		

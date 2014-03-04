@@ -3,12 +3,15 @@ package com.google.payne.tk.john.dailyloginrewards;
 import java.io.File;
 import java.io.IOException;
 
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import com.google.payne.tk.john.dailyloginrewards.configuration.ConsecutiveRewards;
 import com.google.payne.tk.john.dailyloginrewards.configuration.DailyReward;
+import com.google.payne.tk.john.dailyloginrewards.configuration.Lang;
+import com.google.payne.tk.john.dailyloginrewards.configuration.Settings;
 import com.google.payne.tk.john.dailyloginrewards.configuration.TotalDaysRewards;
 import com.google.payne.tk.john.dailyloginrewards.util.TimeDate;
 
@@ -33,11 +36,17 @@ public class NewPlayer {
 			ex.printStackTrace();
 		}
 		//Check Daily reward
-		DailyReward.CheckDailyReward(player);
+		int daily = DailyReward.CheckDailyReward(player);
 		//Check for consecutive day reward
-		ConsecutiveRewards.CheckConsecutiveReward(1, player);
+		int consecutive = ConsecutiveRewards.CheckConsecutiveReward(1, player);
 		//TCheck for total days reward
-		TotalDaysRewards.CheckTotalDaysReward(1, player);
+		int total = TotalDaysRewards.CheckTotalDaysReward(1, player);
 		//TCheck DOB with current date and check for reward
+		int GrandTotal = daily + consecutive + total;
+		
+		if ( (GrandTotal > 0) && Settings.UseCombineTotals ) {
+			player.sendMessage( ChatColor.translateAlternateColorCodes('&', 
+					Lang.CombinedTotals.replace("%g", Integer.toString(GrandTotal))) );
+		}
 	}
 }

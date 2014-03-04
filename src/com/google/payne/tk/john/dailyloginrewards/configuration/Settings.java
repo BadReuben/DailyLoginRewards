@@ -14,6 +14,7 @@ public class Settings {
 	public static int Yesterday = 0;
 	public static boolean UsePermissions = false;
 	public static boolean UseMessages = true;
+	public static boolean UseCombineTotals = true;
 	public static long delay = 200L;
 	public static String timezone = "GMT-0500";
 	
@@ -31,6 +32,7 @@ public class Settings {
 			UseMessages = true;
 			delay = 300L;
 			timezone = "GMT-0500";
+			UseCombineTotals = true;
 			
 			//Set default configuration
 			config.set("dailyloginrewards.version", 1);
@@ -40,6 +42,7 @@ public class Settings {
 			config.set("dailyloginrewards.variables.timezone", timezone);
 			config.set("dailyloginrewards.booleans.usePermissions", UsePermissions);
 			config.set("dailyloginrewards.booleans.useMessages", UseMessages);
+			config.set("dailyloginrewards.booleans.useCombinedTotalsMessage", UseCombineTotals);
 			
 		} else {
 			config = YamlConfiguration.loadConfiguration(fileConfig);
@@ -67,11 +70,14 @@ public class Settings {
 				delay = 1L;
 			}
 			
+			UseCombineTotals = config.getBoolean("dailyloginrewards.booleans.useCombinedTotalsMessage", false);
+			
 			config.set("dailyloginrewards.variables.today", Today);
 			config.set("dailyloginrewards.variables.yesterday", Yesterday);
 			config.set("dailyloginrewards.variables.delay", delay);
 			config.set("dailyloginrewards.variables.timezone", timezone);
 			config.set("dailyloginrewards.booleans.usePermissions", UsePermissions);
+			config.set("dailyloginrewards.booleans.useCombinedTotalsMessage", UseCombineTotals);
 			//removes caplitalized UseMessage from config in 0.1
 			config.set("dailyloginrewards.booleans.UseMessages", null);
 			config.set("dailyloginrewards.booleans.useMessages", UseMessages);

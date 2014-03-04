@@ -30,24 +30,13 @@ public class DailyReward {
 		}
 	}
 	
-	public static void CheckDailyReward(Player player) {
+	public static int CheckDailyReward(Player player) {
 		
 		//Import any rewards for receiving player
 		int Pay = DailyRewards.getInt("dailyreward.pay", -1);
 		String Broadcast = DailyRewards.getString("dailyreward.broadcast", null);
 		String Say = DailyRewards.getString("dailyreward.say", null);
 		String Cmd = DailyRewards.getString("dailyreward.command", null);
-		
-		
-		
-		if ( Pay > 0 && (RewardsEconomy.ecoEnabled == true) ) {
-			DailyLoginRewards.economy.depositPlayer(player.getName(), Pay);
-			
-			if ( (Lang.DailyPay != null) && (Lang.DailyPay != "") && (Settings.UseMessages) ) {
-				player.sendMessage( ChatColor.translateAlternateColorCodes('&', 
-						Lang.DailyPay.replace("%m", Integer.toString(Pay))) );
-			}
-		}
 		
 		if ( Broadcast != null ) {
 			Bukkit.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', Broadcast.replace("%p", player.getName())));
@@ -60,5 +49,17 @@ public class DailyReward {
 		if ( Cmd != null ) {
 			Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), Cmd.replace("%p", player.getName()));
 		}
+		
+		if ( Pay > 0 && (RewardsEconomy.ecoEnabled == true) ) {
+			DailyLoginRewards.economy.depositPlayer(player.getName(), Pay);
+			
+			if ( (Lang.DailyPay != null) && (Lang.DailyPay != "") && (Settings.UseMessages) && !(Settings.UseCombineTotals) ) {
+				player.sendMessage( ChatColor.translateAlternateColorCodes('&', 
+						Lang.DailyPay.replace("%m", Integer.toString(Pay))) );
+			}
+			return Pay;
+		}
+		return 0;
+		
 	}
 }

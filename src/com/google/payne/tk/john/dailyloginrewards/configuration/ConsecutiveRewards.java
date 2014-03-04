@@ -20,14 +20,12 @@ public class ConsecutiveRewards {
 			ConsecutiveRewards.set("2.pay", 50);
 			ConsecutiveRewards.set("4.pay", 150);
 			ConsecutiveRewards.set("7.pay", 400);
-			ConsecutiveRewards.set("7.broadcast", "&9&o%p logged in for 7 days in a row!");
-			ConsecutiveRewards.set("7.say", "&9&o&4&oYou logged in for 7 days in a row!");
-			ConsecutiveRewards.set("7.command", "give %p 264 1");
+			ConsecutiveRewards.set("example.broadcast", "&9&o%p logged in for 7 days in a row!");
+			ConsecutiveRewards.set("example.say", "&9&o&4&oYou logged in for 7 days in a row!");
+			ConsecutiveRewards.set("example.command", "give %p 264 1");
 			ConsecutiveRewards.set("14.pay", 700);
 			ConsecutiveRewards.set("21.pay", 700);
 			ConsecutiveRewards.set("28.pay", 1400);
-			ConsecutiveRewards.set("28.broadcast", "&9&o%p logged in for 28 days in a row!");
-			ConsecutiveRewards.set("28.say", "&9&o&4&oYou logged in for 28 days in a row!");
 			ConsecutiveRewards.set("35.pay", 700);
 			ConsecutiveRewards.set("42.pay", 700);
 			ConsecutiveRewards.set("49.pay", 700);
@@ -64,24 +62,13 @@ public class ConsecutiveRewards {
 		}
 	}
 	
-	public static void CheckConsecutiveReward(int Days, Player player) {
+	public static int CheckConsecutiveReward(int Days, Player player) {
 		
 		//Import any rewards for receiving player
 		int Pay = ConsecutiveRewards.getInt(Days + ".pay", -1);
 		String Broadcast = ConsecutiveRewards.getString(Days + ".broadcast", null);
 		String Say = ConsecutiveRewards.getString(Days + ".say", null);
 		String Cmd = ConsecutiveRewards.getString(Days + ".command", null);
-		
-		
-		
-		if ( Pay > 0 && (RewardsEconomy.ecoEnabled == true) ) {
-			DailyLoginRewards.economy.depositPlayer(player.getName(), Pay);
-			
-			if ( (Lang.ConsecutivePay != null) && (Lang.ConsecutivePay != "") && (Settings.UseMessages) ) {
-				player.sendMessage( ChatColor.translateAlternateColorCodes('&', 
-						Lang.ConsecutivePay.replace("%m", Integer.toString(Pay))) );
-			}
-		}
 		
 		if ( Broadcast != null ) {
 			Bukkit.getServer().broadcastMessage(ChatColor.translateAlternateColorCodes('&', Broadcast.replace("%p", player.getName())));
@@ -94,5 +81,18 @@ public class ConsecutiveRewards {
 		if ( Cmd != null ) {
 			Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), Cmd.replace("%p", player.getName()));
 		}
+		
+		if ( Pay > 0 && (RewardsEconomy.ecoEnabled == true) ) {
+			DailyLoginRewards.economy.depositPlayer(player.getName(), Pay);
+			
+			if ( (Lang.ConsecutivePay != null) && (Lang.ConsecutivePay != "") && (Settings.UseMessages) && !(Settings.UseCombineTotals) ) {
+				player.sendMessage( ChatColor.translateAlternateColorCodes('&', 
+						Lang.ConsecutivePay.replace("%m", Integer.toString(Pay))) );
+			}
+			
+			return Pay;
+		}
+		return 0;
+		
 	}
 }
